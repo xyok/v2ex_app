@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:myapp/item/postPage.dart';
-import 'package:myapp/item/postlist.dart';
-import 'package:myapp/model/post.dart';
+import 'package:v2ex_app/item/postPage.dart';
+import 'package:v2ex_app/item/postlist.dart';
+import 'package:v2ex_app/model/post.dart';
 
 void main() => runApp(new MyApp());
 
