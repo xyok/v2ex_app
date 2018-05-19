@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:v2ex_app/item/postPage.dart';
 import 'package:v2ex_app/item/postlist.dart';
 import 'package:v2ex_app/model/post.dart';
+import 'package:v2ex_app/pages/allNode.dart';
+import 'package:v2ex_app/pages/topics.dart';
+import 'package:v2ex_app/utils/api.dart';
 
 void main() => runApp(new MyApp());
 
@@ -12,11 +15,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
-      title: 'test list',
       theme: new ThemeData(
         primaryColor: Colors.white,
       ),
       home: new HotTops(),
+      routes: <String, WidgetBuilder>{
+        '/home': (BuildContext context) => new HotTops(),
+        '/FavTopics': (BuildContext context) => new TopciGridPage(),
+        '/topics': (BuildContext context) => new AllNode(),
+      },
     );
   }
 }
@@ -28,18 +35,19 @@ class HotTops extends StatefulWidget {
 
 class MainState extends State<HotTops> {
   List<Post> _posts = [];
+  String title = 'v2ex hot';
+  String dataURL = HotTopicsUrl;
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       new GlobalKey<RefreshIndicatorState>();
 
   @override
   void initState() {
     super.initState();
-    loadData();
+    loadData(dataURL);
   }
 
-  loadData() async {
-    String dataURL = "https://www.v2ex.com/api/topics/hot.json";
-    http.Response response = await http.get(dataURL);
+  loadData(url) async {
+    http.Response response = await http.get(url);
     setState(() {
       _posts = Post.fromJson(response.body);
     });
@@ -49,7 +57,19 @@ class MainState extends State<HotTops> {
   Widget build(BuildContext context) {
     return new Scaffold(
         appBar: new AppBar(
-          title: new Text('v2ex hot'),
+          title: new Text(title),
+          actions: <Widget>[
+            new IconButton(
+                icon: const Icon(Icons.bookmark_border),
+                onPressed: () {
+                  Navigator.of(context).pushNamed('/FavTopics');
+                }),
+            new IconButton(
+                icon: const Icon(Icons.apps),
+                onPressed: () {
+                  Navigator.of(context).pushNamed('/topics');
+                }),
+          ],
         ),
         body: creatListView(context));
   }
@@ -85,7 +105,7 @@ class MainState extends State<HotTops> {
   Future<Null> _onRefresh() {
     Completer<Null> completer = new Completer<Null>();
 
-    loadData();
+    loadData(dataURL);
     completer.complete(null);
 
     return completer.future;

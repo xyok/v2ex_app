@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:v2ex_app/model/post.dart';
+import 'package:v2ex_app/model/reply.dart';
 
 class ReplyListItem extends StatelessWidget {
   final Reply r;

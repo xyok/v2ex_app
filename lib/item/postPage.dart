@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:v2ex_app/item/replylist.dart';
 import 'package:v2ex_app/model/post.dart';
 import 'package:http/http.dart' as http;
+import 'package:v2ex_app/model/reply.dart';
 
 class PostPage extends StatefulWidget {
   const PostPage({Key key, this.post}) : super(key: key);
@@ -16,6 +17,7 @@ class PostPage extends StatefulWidget {
 class _PostPageState extends State<PostPage> {
   List<Reply> _replies = [];
   final TextStyle textStyle = new TextStyle(fontSize: 16.0);
+  final TextStyle smallText = new TextStyle(fontSize: 10.0);
 
   loadData(topic_id) async {
     String dataURL =
@@ -48,6 +50,13 @@ class _PostPageState extends State<PostPage> {
                 child: new Text(
                   widget.post.member.username,
                   style: textStyle,
+                ))),
+        new Flexible(
+            child: Container(
+                padding: const EdgeInsets.only(left: 10.0),
+                child: new Text(
+                    widget.post.getCreated().toString(),
+                  style: smallText,
                 )))
       ],
     );
