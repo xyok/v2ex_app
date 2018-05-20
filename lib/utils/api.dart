@@ -11,3 +11,6 @@ const AllNodeUrl = BaseHost + "nodes/all.json";
 
 //节点信息
 const NodeInfoUrl = BaseHost + "nodes/show.json";
+
+//节点下主题
+const TopicListUrl = BaseHost + "topics/show.json";
