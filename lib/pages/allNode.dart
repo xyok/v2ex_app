@@ -55,17 +55,14 @@ class AllNode extends StatefulWidget {
 }
 
 class _NodeChipList extends State<AllNode> {
-
-
   List<Node> _nodes = [];
+  bool desc = true;
 
   @override
   void initState() {
     super.initState();
     loadData();
   }
-
-  
 
   loadData() async {
     String dataURL = AllNodeUrl;
@@ -75,7 +72,17 @@ class _NodeChipList extends State<AllNode> {
     });
   }
 
-
+  sortNode() async{
+      desc = !desc;
+      
+      setState(() {
+          if(desc){
+              _nodes.sort((a, b) => a.topics.compareTo(b.topics));
+          }else{
+              _nodes.sort((b, a) => a.topics.compareTo(b.topics));
+          }
+      });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -92,6 +99,13 @@ class _NodeChipList extends State<AllNode> {
     return new Scaffold(
       appBar: new AppBar(
         title: new Text("Topics"),
+        actions: <Widget>[
+          new IconButton(
+              icon: const Icon(Icons.sort),
+              onPressed: () {
+                sortNode();
+              }),
+        ],
       ),
       body: new ListView(
         children: tiles,
